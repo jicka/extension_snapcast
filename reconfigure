@@ -1,0 +1,37 @@
+#!/usr/bin/python
+
+import re
+import os
+import shutil
+import subprocess
+import filecmp
+
+def is_multiuser():
+    result = subprocess.run(["systemctl", "is-system-running"], capture_output=True, text=True)
+    return result.stdout.strip() == "multi-user"
+
+def get_script_directory():
+    # Get the absolute path of the current Python script
+    script_path = os.path.abspath(__file__)
+    # Get the directory containing the script
+    script_directory = os.path.dirname(script_path)
+    return script_directory
+
+def copy_if_different(source_file, destination_file):
+    if not os.path.exists(destination_file) or not filecmp.cmp(source_file, destination_file):
+        shutil.copy(source_file, destination_file)
+        print(f"File '{source_file}' copied to '{destination_file}'")
+        return True
+    else:
+        return False
+
+# DBUS Configuration
+if copy_if_different(get_script_directory()+"/dbus-snapcast.conf","/etc/dbus-1/system.d/snapcast.conf"):
+    if is_multiuser():
+        result = subprocess.run(["systemctl", "restart", "dbus"])
+        if result.returncode != 0:
+            print("Could not restart dbus")
+            sys.exit(result.returncode)
+    else:
+        with open("/tmp/reboot", "a") as f:
+            f.write("snapcast dbus configuration")
