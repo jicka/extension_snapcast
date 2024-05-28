@@ -3,7 +3,7 @@ services:
   snapcast:
     container_name: snapcast
     restart: always
-    #image: ghcr.io/hifiberry/extension_snapcast:latest
+    image: ghcr.io/hifiberry/extension_snapcast:0.28.0
     build:
       context: .
       dockerfile: Dockerfile
