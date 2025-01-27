@@ -32,7 +32,7 @@ RUN git clone https://github.com/badaix/snapcast /snapcast
 
 # Build Snapcast
 WORKDIR /snapcast
-RUN cmake . \
+RUN cmake -DBUILD_SERVER=OFF . \
     && make
 
 RUN apk add --no-cache python3-dev
