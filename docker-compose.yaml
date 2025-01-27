@@ -9,6 +9,7 @@ services:
       dockerfile: Dockerfile
     devices:
       - /dev/snd:/dev/snd
+    network_mode: host
     group_add:
       - 2001
     volumes:
