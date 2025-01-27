@@ -14,14 +14,16 @@ RUN apk update && apk add --no-cache \
     soxr-dev \
     pkgconf \
     boost-dev \
-    alsa-lib-dev \
+    alsa-lib \
     dbus-dev \
     glib-dev \
     cairo \
     cairo-dev \
     gobject-introspection-dev \
     python3 \
-    py3-pip
+    py3-pip \
+    openssl \
+    openssl-dev
 
 RUN apk add --no-cache dbus
 
@@ -49,6 +51,14 @@ FROM alpine:3.19
 RUN apk update && apk add --no-cache \
     dbus \
     glib \
+## new
+    alsa-lib \
+    opus \
+    libvorbis \
+    libflac \
+    soxr \
+    alsa-utils \
+## end new
     gobject-introspection \
     py3-gobject3 \
     py3-gobject3-dev \
@@ -56,6 +66,7 @@ RUN apk update && apk add --no-cache \
     addgroup -S snapcast -g 2001 && \
     adduser -S -D -H -G snapcast -u 2002 snapcast && \
     rm -rf /var/cache/apk/*
+
 
 # Copy python from builder image
 COPY --from=builder /usr/lib/python3.11/site-packages /usr/lib/python3.11/site-packages
