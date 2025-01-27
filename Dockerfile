@@ -81,4 +81,4 @@ EXPOSE 1704
 USER snapcast
 
 # Run Snapcast server
-CMD ["/usr/bin/python3" , "/snapcastmpris/snapcastmpris.py", "-m", "$CURRENT_MIXER_CONTROL"]
+CMD ["/usr/bin/python3" , "/snapcastmpris/snapcastmpris/snapcastmpris.py", "-m", "$CURRENT_MIXER_CONTROL"]
